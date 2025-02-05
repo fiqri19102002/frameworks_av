@@ -908,7 +908,8 @@ Status AudioPolicyService::startInput(int32_t portIdAidl)
     msg << "Audio recording on session " << client->session;
 
     // check calling permissions
-    if (!(startRecording(client->attributionSource, client->virtualDeviceId,
+    if (!isAudioServerOrMediaServerUid(client->attributionSource.uid)
+            && !(startRecording(client->attributionSource, client->virtualDeviceId,
                          String16(msg.str().c_str()), client->attributes.source)
             || client->attributes.source == AUDIO_SOURCE_FM_TUNER
             || client->attributes.source == AUDIO_SOURCE_REMOTE_SUBMIX
